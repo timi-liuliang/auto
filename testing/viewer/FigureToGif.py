@@ -1,8 +1,12 @@
+import os
 import math
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import xml.etree.ElementTree as ET
+
+# file
+figure_file = "figure_2021.08.06-10.08.55.xml"
 
 # total time
 tt = 10.0
@@ -26,14 +30,11 @@ plots.append(ax.plot(0, 0, label="Line 0")[0])
 ax.legend()
 #ax.grid()
 
-def load_plots(file_path):
-    tree = ET.parse("plots.xml")
-    plots_node = tree.getroot()
+def load_plots():
+    tree = ET.parse(figure_file)
+    figure_node = tree.getroot()
 
-    
-
-    return
-
+    print(figure_node)
 
 def animation_frame(i):
     if(i*10 <100):
@@ -46,4 +47,7 @@ def animation_frame(i):
     #ax.scatter(i*10, i*5.0)
 
 anim = animation.FuncAnimation(fig, init_func=load_plots, func=animation_frame, frames=np.arange(0, tt, dt), interval=dt * 1000)
-anim.save('result.gif', writer='pillow')
+
+# save to gif
+gif_file = os.path.splitext(figure_file)[0] + ".gif"
+anim.save(gif_file, writer='pillow')
