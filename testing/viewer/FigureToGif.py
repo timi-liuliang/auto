@@ -6,11 +6,11 @@ import matplotlib.animation as animation
 import xml.etree.ElementTree as ET
 
 # file
-figure_file = "figure_2021.08.06-15.51.03.xml"
+figure_file = "figure_2021.08.06-20.24.02.xml"
 figure_node = ET.parse(figure_file).getroot()
 
 # total time
-tt = 10.0
+tt = 50.0
 
 # delta time
 dt = 0.02
@@ -25,6 +25,9 @@ plots = []
 ax.legend()
 #ax.grid()
 
+def set_time_range():
+    tt = float(figure_node.attrib["total_time"])
+
 def set_lim():
     x_lim_begin = float(figure_node.attrib["x_lim_begin"])
     x_lim_end = float(figure_node.attrib["x_lim_end"])
@@ -35,6 +38,9 @@ def set_lim():
     ax.set_ylim(y_lim_begin, y_lim_end)
 
 def load_figure():
+    # time range
+    set_time_range()
+
     # lim
     set_lim()
 
@@ -52,37 +58,35 @@ def load_figure():
 def line_key_interpolation(now, plot_node):
     for index, key_node in enumerate(plot_node):
         next_time = time = float(key_node.attrib["time"])
-        next_xvalue = xvalue = 0.0
-        next_yvalue = yvalue = 0.0
+        next_value = pre_value = key_node.attrib["value"].split(" ")
         ratio = 1.0
 
         if index < len(plot_node) - 1:
             next_key_node = plot_node[index+1]
             next_time = float(next_key_node.attrib["time"])
-            next_xvalue = 0.0
-            next_yvalue = 0.0
+            next_value =  next_key_node.attrib["value"].split(" ")
             ratio = (now - time) / (next_time - time)
 
         if now>=time and now <=next_time :
-            now_x_value = xvalue + ratio * (next_xvalue - xvalue)
-            now_y_value = yvalue + ratio * (next_yvalue - yvalue)
+            now_x_value = float(pre_value[0]) + ratio * (float(next_value[0]) - float(pre_value[0]))
+            now_y_value = float(pre_value[1]) + ratio * (float(next_value[1]) - float(pre_value[1]))
 
-            return now_x_value, now_y_value
+            return True, now_x_value, now_y_value
 
-    return 0.0, 0.0
+    return False, float(pre_value[0]), float(pre_value[0])
 
 def animation_frame(i):
     for idx, plot_node in enumerate(figure_node):
         if plot_node.attrib["type"] == "Line":
-            x_value, y_value = line_key_interpolation(i, plot_node)
+            succeed, x_value, y_value = line_key_interpolation(i, plot_node)
+            if succeed :
+                x_data = plots[idx].get_xdata()
+                y_data = plots[idx].get_ydata()
 
-            x_data = plots[idx].get_xdata()
-            y_data = plots[idx].get_ydata()
+                x_data.append(x_value)
+                y_data.append(y_value) 
 
-            x_data.append(x_value)
-            y_data.append(y_value) 
-
-            plots[idx].set_data(x_data, y_data)
+                plots[idx].set_data(x_data, y_data)
 
 # animation
 anim = animation.FuncAnimation(fig, init_func=load_figure, func=animation_frame, frames=np.arange(0, tt, dt), interval=dt * 1000)
