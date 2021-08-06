@@ -7,6 +7,7 @@ import xml.etree.ElementTree as ET
 
 # file
 figure_file = "figure_2021.08.06-10.08.55.xml"
+figure_node = ET.parse(figure_file).getroot()
 
 # total time
 tt = 10.0
@@ -14,10 +15,7 @@ tt = 10.0
 # delta time
 dt = 0.02
 
-# line datas
-x_data = []
-y_data = []
-
+# fig
 fig, ax = plt.subplots()
 
 ax.set_xlim(0, 105)
@@ -25,27 +23,58 @@ ax.set_ylim(0, 12)
 ax.set_title("Title")
 
 plots = []
-plots.append(ax.plot(0, 0, label="Line 0")[0])
 
 ax.legend()
 #ax.grid()
 
 def load_plots():
-    tree = ET.parse(figure_file)
-    figure_node = tree.getroot()
+    for plot_node in figure_node:
+        if plot_node.attrib["type"] == "Line":
+            plot = ax.plot([], [], label=plot_node.attrib["label"])[0]
 
-    print(figure_node)
+            x_data = []
+            y_data = []
+            plot.set_data(x_data, y_data)
+
+            plots.append(plot)
+            
+
+def line_key_interpolation(now, plot_node):
+    for index, key_node in enumerate(plot_node):
+        next_time = time = float(key_node.attrib["time"])
+        next_xvalue = xvalue = 0.0
+        next_yvalue = yvalue = 0.0
+        ratio = 1.0
+
+        if index < len(plot_node) - 1:
+            next_key_node = plot_node[index+1]
+            next_time = float(next_key_node.attrib["time"])
+            next_xvalue = 0.0
+            next_yvalue = 0.0
+            ratio = (now - time) / (next_time - time)
+
+        if now>=time and now <=next_time :
+            now_x_value = xvalue + ratio * (next_xvalue - xvalue)
+            now_y_value = yvalue + ratio * (next_yvalue - yvalue)
+
+            return now_x_value, now_y_value
+
+    return 0.0, 0.0
 
 def animation_frame(i):
-    if(i*10 <100):
-        x_data.append(i * 10)
-        y_data.append(math.sin(i) + 6.0) 
+    for idx, plot_node in enumerate(figure_node):
+        if plot_node.attrib["type"] == "Line":
+            x_value, y_value = line_key_interpolation(i, plot_node)
 
-    plots[0].set_xdata(x_data)
-    plots[0].set_ydata(y_data)
+            x_data = plots[idx].get_xdata()
+            y_data = plots[idx].get_ydata()
 
-    #ax.scatter(i*10, i*5.0)
+            x_data.append(x_value)
+            y_data.append(y_value) 
 
+            plots[idx].set_data(x_data, y_data)
+
+# animation
 anim = animation.FuncAnimation(fig, init_func=load_plots, func=animation_frame, frames=np.arange(0, tt, dt), interval=dt * 1000)
 
 # save to gif
