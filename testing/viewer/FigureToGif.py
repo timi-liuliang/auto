@@ -6,7 +6,7 @@ import matplotlib.animation as animation
 import xml.etree.ElementTree as ET
 
 # file
-figure_file = "figure_2021.08.06-10.08.55.xml"
+figure_file = "figure_2021.08.06-15.51.03.xml"
 figure_node = ET.parse(figure_file).getroot()
 
 # total time
@@ -18,8 +18,6 @@ dt = 0.02
 # fig
 fig, ax = plt.subplots()
 
-ax.set_xlim(0, 105)
-ax.set_ylim(0, 12)
 ax.set_title("Title")
 
 plots = []
@@ -27,7 +25,19 @@ plots = []
 ax.legend()
 #ax.grid()
 
-def load_plots():
+def set_lim():
+    x_lim_begin = float(figure_node.attrib["x_lim_begin"])
+    x_lim_end = float(figure_node.attrib["x_lim_end"])
+    y_lim_begin = float(figure_node.attrib["y_lim_begin"])
+    y_lim_end = float(figure_node.attrib["y_lim_end"])
+    
+    ax.set_xlim(x_lim_begin, x_lim_end)
+    ax.set_ylim(y_lim_begin, y_lim_end)
+
+def load_figure():
+    # lim
+    set_lim()
+
     for plot_node in figure_node:
         if plot_node.attrib["type"] == "Line":
             plot = ax.plot([], [], label=plot_node.attrib["label"])[0]
@@ -75,7 +85,7 @@ def animation_frame(i):
             plots[idx].set_data(x_data, y_data)
 
 # animation
-anim = animation.FuncAnimation(fig, init_func=load_plots, func=animation_frame, frames=np.arange(0, tt, dt), interval=dt * 1000)
+anim = animation.FuncAnimation(fig, init_func=load_figure, func=animation_frame, frames=np.arange(0, tt, dt), interval=dt * 1000)
 
 # save to gif
 gif_file = os.path.splitext(figure_file)[0] + ".gif"
