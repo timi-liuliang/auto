@@ -6,8 +6,8 @@ import matplotlib.animation as animation
 import xml.etree.ElementTree as ET
 
 # file
-figure_file = "figure_2021.08.06-20.24.02.xml"
-figure_node = ET.parse(figure_file).getroot()
+figure_file = ""
+figure_node = None
 
 # total time
 tt = 50.0
@@ -18,12 +18,8 @@ dt = 0.02
 # fig
 fig, ax = plt.subplots()
 
-ax.set_title("Title")
-
+# plots
 plots = []
-
-ax.legend()
-#ax.grid()
 
 def set_time_range():
     tt = float(figure_node.attrib["total_time"])
@@ -88,9 +84,23 @@ def animation_frame(i):
 
                 plots[idx].set_data(x_data, y_data)
 
-# animation
-anim = animation.FuncAnimation(fig, init_func=load_figure, func=animation_frame, frames=np.arange(0, tt, dt), interval=dt * 1000)
 
-# save to gif
-gif_file = os.path.splitext(figure_file)[0] + ".gif"
-anim.save(gif_file, writer='pillow')
+for file in os.listdir(os.getcwd()):
+    if file.endswith(".xml"):
+        figure_file = file
+        gif_file = os.path.splitext(figure_file)[0] + ".gif"
+        if not os.path.exists(gif_file):
+            # load
+            figure_node = ET.parse(figure_file).getroot()
+            
+            # clear
+            fig, ax = plt.subplots()
+            ax.set_title("Car Rerversing")
+
+            plots = []
+
+            # animation
+            anim = animation.FuncAnimation(fig, init_func=load_figure, func=animation_frame, frames=np.arange(0, tt, dt), interval=dt * 1000)
+
+            # save to gif
+            anim.save(gif_file, writer='pillow')
