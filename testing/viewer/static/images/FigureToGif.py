@@ -9,20 +9,16 @@ import xml.etree.ElementTree as ET
 figure_file = ""
 figure_node = None
 
-# total time
-tt = 50.0
-
-# delta time
-dt = 0.02
-
 # fig
 fig, ax = plt.subplots()
 
 # plots
 plots = []
 
-def set_time_range():
-    tt = float(figure_node.attrib["total_time"])
+def set_title():
+    title = figure_node.attrib["title"]
+    play_speed = float(figure_node.attrib["play_speed"])
+    ax.set_title("{0} (Play Speed : {1}x)".format(title, play_speed))
 
 def set_lim():
     x_lim_begin = float(figure_node.attrib["x_lim_begin"])
@@ -34,22 +30,40 @@ def set_lim():
     ax.set_ylim(y_lim_begin, y_lim_end)
 
 def load_figure():
-    # time range
-    set_time_range()
+    # title
+    set_title()
 
     # lim
     set_lim()
 
     for plot_node in figure_node:
         if plot_node.attrib["type"] == "Line":
-            plot = ax.plot([], [], label=plot_node.attrib["label"])[0]
+            label_name = plot_node.attrib["label"]
+            plot = ax.plot([], [], label=label_name)[0]
 
             x_data = []
             y_data = []
             plot.set_data(x_data, y_data)
 
             plots.append(plot)
-            
+        elif plot_node.attrib["type"] == "NavSpline":
+            label_name = plot_node.attrib["label"]
+            plot = ax.plot([], [], label=label_name)[0]
+
+            x_data = []
+            y_data = []
+
+            for index, key_node in enumerate(plot_node):
+                key_value = key_node.attrib["value"].split(" ")
+                x_data.append(float(key_value[0]))
+                y_data.append(float(key_value[1]))
+
+            plot.set_data(x_data, y_data)
+
+            plots.append(plot)
+
+    # show legend
+    ax.legend()          
 
 def line_key_interpolation(now, plot_node):
     for index, key_node in enumerate(plot_node):
@@ -69,7 +83,7 @@ def line_key_interpolation(now, plot_node):
 
             return True, now_x_value, now_y_value
 
-    return False, float(pre_value[0]), float(pre_value[0])
+    return False, float(0.0), float(0.0)
 
 def animation_frame(i):
     for idx, plot_node in enumerate(figure_node):
@@ -84,23 +98,43 @@ def animation_frame(i):
 
                 plots[idx].set_data(x_data, y_data)
 
+# get files sort by datetime
+def getfiles(dirpath):
+    a = [s for s in os.listdir(dirpath)]
+    a.sort(key=lambda s: os.path.getmtime(os.path.join(dirpath, s)))
+    a.reverse()
 
-for file in os.listdir(os.getcwd()):
+    return a
+
+for file in getfiles(os.getcwd()):
     if file.endswith(".xml"):
         figure_file = file
         gif_file = os.path.splitext(figure_file)[0] + ".gif"
         if not os.path.exists(gif_file):
             # load
             figure_node = ET.parse(figure_file).getroot()
+
+            # total time
+            tt = float(figure_node.attrib["total_time"])
+
+            # delta time
+            play_speed = float(figure_node.attrib["play_speed"])
+            dt = 0.02 * play_speed
             
+            # figure size (pixels->inches) 
+            # https://matplotlib.org/devdocs/gallery/subplots_axes_and_figures/figure_size_units.html
+            px = 1/plt.rcParams["figure.dpi"]
+            fig_size = figure_node.attrib["size"].split(" ")
+            fig_width = float(fig_size[0]) * px
+            fig_height = float(fig_size[1]) * px
+
             # clear
-            fig, ax = plt.subplots()
-            ax.set_title("Car Rerversing")
+            fig, ax = plt.subplots(figsize=(fig_width, fig_height))
 
             plots = []
 
             # animation
-            anim = animation.FuncAnimation(fig, init_func=load_figure, func=animation_frame, frames=np.arange(0, tt, dt), interval=dt * 1000)
+            anim = animation.FuncAnimation(fig, init_func=load_figure, func=animation_frame, frames=np.arange(0, tt, dt), interval=dt * 1000 / play_speed)
 
             # save to gif
             anim.save(gif_file, writer='pillow')
