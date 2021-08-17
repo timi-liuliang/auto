@@ -28,6 +28,7 @@
 	<Log class="Log" />
 	<MacBuildSettings class="MacBuildSettings" AppName="opendrive" Identifier="com.echo.opendrive" Version="1.0.0" Icon="Res://icon.png" />
 	<ModelModule class="ModelModule" Enable="true" />
+	<OpenDriveModule class="OpenDriveModule" Enable="true" />
 	<PCGModule class="PCGModule" Enable="true" />
 	<PhysxModule class="PhysxModule" Enable="true" DebugDraw="Editor" Gravity="0 -9.8 0" Shift="0 0 0" />
 	<PluginSettings class="PluginSettings" SearchPath="${EchoDir}/plugins/;${ProjectDir}/plugins/;" />
@@ -35,6 +36,7 @@
 	<RaytracingWorld class="RaytracingWorld" />
 	<RecastModule class="RecastModule" Enable="true" />
 	<Renderer class="Renderer" />
+	<RvoModule class="RvoModule" Enable="true" DebugDraw="Editor" />
 	<SceneModule class="SceneModule" Enable="true" />
 	<SpineModule class="SpineModule" Enable="true" />
 	<SplineModule class="SplineModule" Enable="true" />
