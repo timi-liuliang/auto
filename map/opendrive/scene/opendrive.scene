@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<node class="OpenDrive" name="OpenDrive" Enable="true" Position="0 0 0" Rotation="0 0 0" Scale="1 1 1" Script="" Xodr="Res://xodr/Town01.xodr" />
+<node class="OpenDrive" name="OpenDrive" Enable="true" Position="0 0 0" Rotation="0 0 0" Scale="1 1 1" Script="" Xodr="Res://xodr/Crossing8Course.xodr" />
