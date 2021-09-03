@@ -2,8 +2,62 @@
 <html>
 <head>
     <title>FunctionalTesting</title>
+    <style>
+        .title
+        {
+            font-size: x-large;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .left-80 
+        {
+            position: absolute;
+            top: 5%;
+            left: 2%;
+            width: 75%;
+            /*background-color: rgb(249, 249, 249);*/
+            border:2px solid rgb(40, 42, 53);
+        }
+
+        .right-20 
+        {
+            position: absolute;
+            top: 5%;
+            right: 2%;
+            width: 20%;
+            min-height: 25%;
+            border:2px solid rgb(40, 42, 53);
+            border-spacing: 15px;
+            border-radius: 5px;
+            background-color: rgb(255, 255, 255);
+        }
+
+        .selected
+        {
+            /*background-color: rgb(229, 229, 229);*/
+            font-weight: bold;
+        }
+
+        p.ex2 
+        {
+            margin-left : 2%; 
+        }
+
+        p.ex5 
+        {
+            margin-left : 5%; 
+        }
+
+    </style>
 </head>
 <body>
-    <img src="static/images/figure_2021.08.06-20.46.49.gif">
+    <div class="title"><a >PRacing AI FunctionalTest</a></div>
+    <div class="left-80">
+        {LEFT_CONTENT}
+    </div>
+    <div class="right-20">
+        {RIGHT_CONTENT}
+    </div>
 </body>
 </html>

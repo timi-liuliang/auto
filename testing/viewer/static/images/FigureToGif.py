@@ -4,6 +4,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import xml.etree.ElementTree as ET
+import argparse
+
+# working dir
+workingdir = os.getcwd() + '/temp/'
+
+# target extension
+target_ext = ".gif"
 
 # file
 figure_file = ""
@@ -105,11 +112,18 @@ def getfiles(dirpath):
     a.reverse()
 
     return a
+    
+# parse target ext
+parser = argparse.ArgumentParser(description='figure save type', conflict_handler='resolve')
+parser.add_argument('-save_type', help='saving type', default='.gif')
+args = parser.parse_args()
 
-for file in getfiles(os.getcwd()):
+target_ext = args.save_type
+
+for file in getfiles(workingdir):
     if file.endswith(".xml"):
-        figure_file = file
-        gif_file = os.path.splitext(figure_file)[0] + ".gif"
+        figure_file = os.path.join(workingdir, file)
+        gif_file = os.path.join(workingdir, os.path.splitext(figure_file)[0] + target_ext)
         if not os.path.exists(gif_file):
             # load
             figure_node = ET.parse(figure_file).getroot()
@@ -133,8 +147,16 @@ for file in getfiles(os.getcwd()):
 
             plots = []
 
+            # grid
+            show_grid = int(figure_node.attrib["grid"])
+            if show_grid > 0 :
+                ax.grid()
+
             # animation
             anim = animation.FuncAnimation(fig, init_func=load_figure, func=animation_frame, frames=np.arange(0, tt, dt), interval=dt * 1000 / play_speed)
 
             # save to gif
-            anim.save(gif_file, writer='pillow')
+            if target_ext == ".mp4" :
+                anim.save(gif_file, writer="ffmpeg")
+            else:
+                anim.save(gif_file, writer='pillow')
