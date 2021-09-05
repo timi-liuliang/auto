@@ -14,8 +14,11 @@ Autopilot
 ![](math/functions/cos/cos.gif)
 
 ##### Spiral 
-<img src="https://render.githubusercontent.com/render/math?math=x_i=\int cos(x_i^2) \, dx">   
+$$C(x)=\int{0}^{\pi} cos(x_i^2) \, dx$$
+<img src="https://render.githubusercontent.com/render/math?math=S(x)=\int{0}^{\pi} cos(x_i^2) \, dx">  
 <img src="https://render.githubusercontent.com/render/math?math=y_i=\int sin(x_i^2) \, dx">   
+
+![](math/functions/clothoid/clothoid.gif)
 
 ##### Sum  
 <img src="https://render.githubusercontent.com/render/math?math=\sum_{i=1}^{10}x_i">   
