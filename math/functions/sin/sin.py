@@ -5,6 +5,11 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from matplotlib.ticker import FuncFormatter, MultipleLocator
 
+# total time
+base_time = 4.0
+pause_time = 2.0
+total_time = base_time + pause_time
+
 # fig
 fig, ax = plt.subplots()
 
@@ -38,9 +43,12 @@ def init_figure():
     ax.legend()          
 
 def animation_frame(i):
+    if i > base_time:
+        return
+
     idx = 0
 
-    x_value = i * math.pi - 2 * math.pi
+    x_value = i * math.pi - base_time / 2.0 * math.pi
     y_value = math.sin(x_value)
 
     x_data = plots[idx].get_xdata()
@@ -50,9 +58,6 @@ def animation_frame(i):
     y_data.append(y_value) 
 
     plots[idx].set_data(x_data, y_data)  
-
-# total time
-tt = 4.0
 
 # delta time
 play_speed = 0.5
@@ -73,7 +78,7 @@ ax.xaxis.set_major_locator(MultipleLocator(base=np.pi))
 ax.grid()
 
 # animation
-anim = animation.FuncAnimation(fig, init_func=init_figure, func=animation_frame, frames=np.arange(0, tt, dt), interval=dt * 1000 / play_speed)
+anim = animation.FuncAnimation(fig, init_func=init_figure, func=animation_frame, frames=np.arange(0, total_time, dt), interval=dt * 1000 / play_speed)
 
 # save to gif
 anim.save("sin.gif", writer='pillow')
