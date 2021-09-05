@@ -12,4 +12,5 @@ $$x_i=\int cos(x_i^2) \, dx$$
 $$y_i=\int sin(x_i^2) \, dx$$
 
 #### Sum
-$$\sum_{i=1}^{10}x_i $$
+$$\sum_{i=1}^{10}x_i $$   
+<img src="https://render.githubusercontent.com/render/math?math=\sum_{i=1}^{10}x_i">
