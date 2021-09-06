@@ -10,6 +10,7 @@
 	<BuildModule class="BuildModule" Enable="true" />
 	<CameraModule class="CameraModule" Enable="true" />
 	<EditorCameraSettings class="EditorCameraSettings" MoveSpeed="12.0" NearClip="0.2" FarClip="2500.0" />
+	<EditorGeneralSettings class="EditorGeneralSettings" Show3dGrid="false" />
 	<EditorRenderSettings class="EditorRenderSettings" PolygonMode="Fill" />
 	<EditorSettingsModule class="EditorSettingsModule" Enable="true" />
 	<EffectModule class="EffectModule" Enable="true" />
