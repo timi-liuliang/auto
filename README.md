@@ -14,8 +14,12 @@ Autopilot
 ![](math/functions/cos/cos.gif)
 
 ##### Spiral 
-<img src="https://render.githubusercontent.com/render/math?math=C(x)=\int_0^x cos(x^2) \, dx">    
-<img src="https://render.githubusercontent.com/render/math?math=S(x)=\int_0^x sin(x^2) \, dx">     
+<div style='display: none'>
+    $$C(x)=\int_0^x cos(x^2) \, dx = \sum_{n=0}^{\infty} (-1)^n \frac{x^{4n+1}}{(2n)!(4n+1)}$$
+    $$S(x)=\int_0^x sin(x^2) \, dx = \sum_{n=0}^{\infty} (-1)^n \frac{x^{4n+3}}{(2n+1)!(4n+3)}$$
+</div>
+<img src="https://render.githubusercontent.com/render/math?math=C(x)=\int_0^x cos(x^2) \, dx = \sum_{n=0}^{\infty} (-1)^n \frac{x^{4n%2B1}}{(2n)!(4n%2B1)}">    
+<img src="https://render.githubusercontent.com/render/math?math=S(x)=\int_0^x sin(x^2) \, dx = \sum_{n=0}^{\infty} (-1)^n \frac{x^{4n%2B3}}{(2n%2B1)!(4n%2B3)}">     
 
 ![](math/functions/clothoid/clothoid.gif)
 
