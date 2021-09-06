@@ -14,9 +14,8 @@ Autopilot
 ![](math/functions/cos/cos.gif)
 
 ##### Spiral 
-$$C(x)=\int{0}^{\pi} cos(x_i^2) \, dx$$
-<img src="https://render.githubusercontent.com/render/math?math=S(x)=\int{0}^{\pi} cos(x_i^2) \, dx">  
-<img src="https://render.githubusercontent.com/render/math?math=y_i=\int sin(x_i^2) \, dx">   
+<img src="https://render.githubusercontent.com/render/math?math=C(x)=\int_0^x cos(x^2) \, dx">    
+<img src="https://render.githubusercontent.com/render/math?math=S(x)=\int_0^x sin(x^2) \, dx">     
 
 ![](math/functions/clothoid/clothoid.gif)
 
