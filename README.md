@@ -24,5 +24,3 @@ Autopilot
 
 ![](math/functions/clothoid/clothoid.gif)
 
-##### Sum  
-<img src="https://render.githubusercontent.com/render/math?math=\sum_{i=1}^{10}x_i">   
