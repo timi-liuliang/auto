@@ -13,6 +13,11 @@ Autopilot
 
 ![](math/functions/cos/cos.gif)
 
+##### ASin
+<img src="https://render.githubusercontent.com/render/math?math=f(x)=asin(x)">  
+
+![](math/functions/arcsin/asin.gif)
+
 ##### Atan
 <img src="https://render.githubusercontent.com/render/math?math=f(x)=atan(x)">  
 
