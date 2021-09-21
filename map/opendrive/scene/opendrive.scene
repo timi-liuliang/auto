@@ -1,2 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<node class="OpenDrive" name="OpenDrive" Enable="true" Position="0 0 0" Rotation="0 0 0" Scale="1 1 1" Script="" Xodr="Res://xodr/Crossing8Course.xodr" />
+<node class="OpenDrive" name="OpenDrive" Enable="true" Position="0 0 0" Rotation="0 0 0" Scale="1 1 1" Script="" Xodr="Res://xodr/Country.xodr">
+	<property name="DebugDraw">
+		<obj class="OpenDriveDebugDraw" />
+	</property>
+	<node class="OpenDriveDynamicMesh" name="LaneBorder" Enable="true" Position="0 0 0" Rotation="0 0 0" Scale="1 1 1" Script="" RenderType="3d" Visible="true" StepLength="3.0">
+		<property name="Material">
+			<obj class="Material" Shader="_echo_default_3d_shader_HAS_NORMALS" />
+		</property>
+	</node>
+	<node class="OpenDriveDynamicMesh" name="LaneDriving" Enable="true" Position="0 0 0" Rotation="0 0 0" Scale="1 1 1" Script="" RenderType="3d" Visible="true" StepLength="3.0">
+		<property name="Material" path="Res://xodr/material/lanedrive.material" />
+	</node>
+	<node class="OpenDriveDynamicMesh" name="LaneParking" Enable="true" Position="0 0 0" Rotation="0 0 0" Scale="1 1 1" Script="" RenderType="3d" Visible="true" StepLength="3.0">
+		<property name="Material">
+			<obj class="Material" Shader="_echo_default_3d_shader_HAS_NORMALS" />
+		</property>
+	</node>
+</node>

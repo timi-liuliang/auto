@@ -9,7 +9,7 @@
 	<Box2DModule class="Box2DModule" Enable="true" FramesPerSecond="60" DebugDraw="Editor" PixelsPerMeter="32.0" Gravity="0 -9.8" />
 	<BuildModule class="BuildModule" Enable="true" />
 	<CameraModule class="CameraModule" Enable="true" />
-	<EditorCameraSettings class="EditorCameraSettings" MoveSpeed="12.0" NearClip="0.2" FarClip="2500.0" />
+	<EditorCameraSettings class="EditorCameraSettings" MoveSpeed="60.0" NearClip="0.2" FarClip="2500.0" />
 	<EditorGeneralSettings class="EditorGeneralSettings" Show3dGrid="false" />
 	<EditorRenderSettings class="EditorRenderSettings" PolygonMode="Fill" />
 	<EditorSettingsModule class="EditorSettingsModule" Enable="true" />
