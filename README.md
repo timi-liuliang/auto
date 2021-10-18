@@ -29,3 +29,7 @@ Autopilot
 
 ![](math/functions/clothoid/clothoid.gif)
 
+#### Contrast Adjust
+<img src="https://render.githubusercontent.com/render/math?math=f(x)=(x/0.18)^{contrast}*0.18">  
+
+![](math/functions/contrast/contrast.gif)
